@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Servidor de mensajeria</title>
+        <title>Servidor de Mensajer&iacute;a</title>
         <style>
             html {
                 background: black;
@@ -21,6 +21,9 @@
             }
             a {
                 color: white;
+            }
+            pre {
+                margin-left: 5em;
             }
             .brand {
                 display: block;
@@ -54,32 +57,33 @@
         </style>
     </head>
     <body>
-        <h1>Servidor de Mensajeria</h1>
+        <h1>Servidor de Mensajer&iacute;a</h1>
         <h6>No hay nada que ver aqui, acceda a traves de la API</h6>
         <table>
             <tbody>
                 <tr>
-                    <td>Registrar usuario nuevo</td>
+                    <td><strong>Usuario nuevo</strong></td>
                     <td><pre>/servicios/usuarios/registrarusuario?usuario={usuario}&amp;password={password}</pre></td>
                 </tr>
                 <tr>
-                    <td>Login</td>
+                    <td><strong>Login</strong></td>
                     <td><pre>/servicios/usuarios/login?usuario={usuario}&amp;password={password}</pre></td>
                 </tr>
                 <tr>
-                    <td>Enviar mensaje</td>
+                    <td><strong>Enviar mensaje</strong></td>
                     <td><pre>/servicios/mensajes/nuevomensaje?sesion={token}&amp;destinatario={destinatario}&amp;mensaje={mensaje}</pre></td>
                 </tr>
                 <tr>
-                    <td>Mensajes recibidos</td>
+                    <td><strong>Mensajes recibidos</strong></td>
                     <td><pre>/servicios/mensajes/listamensajes?sesion={token}</pre></td>
                 </tr>
                 <tr>
-                    <td>Enviar mensaje</td>
+                    <td><strong>Mensajes enviados</strong></td>
                     <td><pre>/servicios/mensajes/listamensajesenviados?sesion={token}</pre></td>
                 </tr>
             </tbody>
         </table>
+        <p>&nbsp;</p>
         <footer>
             <span>Powered by</span>
             <a class="brand" href="http://openshift.com">
