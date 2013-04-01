@@ -1,10 +1,7 @@
 package com.gustavogenovese.servermensajeria.rest;
 
 import com.gustavogenovese.servermensajeria.core.ServicioMensajes;
-import com.gustavogenovese.servermensajeria.core.ServicioUsuarios;
 import com.gustavogenovese.servermensajeria.core.Sesiones;
-import com.gustavogenovese.servermensajeria.entidades.Mensaje;
-import com.gustavogenovese.servermensajeria.entidades.Usuario;
 import com.gustavogenovese.servermensajeria.entidades.dtos.MensajeDTO;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.jdto.DTOBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,13 +23,7 @@ import org.springframework.stereotype.Component;
 public class ManejadorMensajes {
 
     @Autowired
-    private ServicioUsuarios servicioUsuarios;
-
-    @Autowired
     private ServicioMensajes servicioMensajes;
-
-    @Autowired
-    private DTOBinder binder;
 
     @POST
     @Path("/listamensajes")
@@ -44,10 +34,8 @@ public class ManejadorMensajes {
             return Response.status(Response.Status.UNAUTHORIZED).entity(Collections.emptyList()).build();
         }
 
-        Usuario u = servicioUsuarios.buscarUsuarioPorId(usuarioId);
-        List<Mensaje> mensajes = servicioMensajes.listarMensajesPara(u);
-        List<MensajeDTO> mensajesSerializados = binder.bindFromBusinessObjectList(MensajeDTO.class, mensajes);
-        return Response.status(Response.Status.OK).entity(mensajesSerializados).build();
+        List<MensajeDTO> mensajes = servicioMensajes.listarMensajesPara(usuarioId);
+        return Response.status(Response.Status.OK).entity(mensajes).build();
     }
 
     @POST
@@ -59,29 +47,26 @@ public class ManejadorMensajes {
             return Response.status(Response.Status.UNAUTHORIZED).entity(Collections.emptyList()).build();
         }
 
-        Usuario u = servicioUsuarios.buscarUsuarioPorId(usuarioId);
-        List<Mensaje> mensajes = servicioMensajes.listarMensajesDe(u);
-        List<MensajeDTO> mensajesSerializados = binder.bindFromBusinessObjectList(MensajeDTO.class, mensajes);
-        return Response.status(Response.Status.OK).entity(mensajesSerializados).build();
+        List<MensajeDTO> mensajes = servicioMensajes.listarMensajesDe(usuarioId);
+        return Response.status(Response.Status.OK).entity(mensajes).build();
     }
 
     @POST
     @Path("/nuevomensaje")
     @Produces(MediaType.APPLICATION_JSON)
     public Response enviarMensaje(@QueryParam("sesion") String sesion,
-                                 @QueryParam("destinatario") String destinatario,
-                                 @QueryParam("mensaje") String mensaje){
-        String usuarioId = Sesiones.getInstance().getUsuarioId(sesion);
-        if (usuarioId == null){
-            return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();
-        }
-        Usuario remitente = servicioUsuarios.buscarUsuarioPorId(usuarioId);
-        Usuario dest = servicioUsuarios.buscarUsuarioPorUsuario(destinatario);
-        if (dest == null){
+                                  @QueryParam("destinatario") String destinatario,
+                                  @QueryParam("mensaje") String mensaje) {
+        String remitenteId = Sesiones.getInstance().getUsuarioId(sesion);
+        if (remitenteId == null){
             return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();
         }
 
-        boolean resultado = servicioMensajes.enviarMensaje(remitente, dest, mensaje);
+        if (destinatario == null){
+            return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();
+        }
+
+        boolean resultado = servicioMensajes.enviarMensaje(remitenteId, destinatario, mensaje);
         if (resultado){
             return Response.status(Response.Status.CREATED).entity(true).build();
         }else{

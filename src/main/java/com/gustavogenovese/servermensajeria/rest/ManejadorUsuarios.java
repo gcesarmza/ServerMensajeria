@@ -24,6 +24,7 @@ public class ManejadorUsuarios {
 
     /**
      * Registrar nuevo usuario
+     *
      * @param usuario
      * @param password
      * @return El exito o no de la operacion
@@ -31,26 +32,27 @@ public class ManejadorUsuarios {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/registrarusuario")
-    public Response registrarUsuario(@QueryParam("usuario") String usuario, @QueryParam("password") String password){
+    public Response registrarUsuario(@QueryParam("usuario") String usuario,
+                                     @QueryParam("password") String password) {
         boolean resultado = servicioUsuarios.agregarUsuario(usuario, password);
-        if (resultado){
+        if (resultado) {
             return Response.status(Response.Status.CREATED).entity(true).build();
-        }else{
+        } else {
             return Response.status(Response.Status.CONFLICT).entity(false).build();
         }
     }
 
     @POST
-    @Produces (MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/login")
-    public Response autenticarUsuario(@QueryParam("usuario") String usuario, @QueryParam("password") String password){
+    public Response autenticarUsuario(@QueryParam("usuario") String usuario,
+                                      @QueryParam("password") String password) {
         String id = servicioUsuarios.autenticarUsuario(usuario, password);
 
-        if (id != null){
+        if (id != null) {
             String token = Sesiones.getInstance().nuevaSesion(id);
             return Response.status(Response.Status.OK).entity(token).build();
         }
         return Response.status(Response.Status.FORBIDDEN).entity("").build();
     }
-
 }

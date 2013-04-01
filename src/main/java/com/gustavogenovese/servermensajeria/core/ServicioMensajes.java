@@ -1,7 +1,6 @@
 package com.gustavogenovese.servermensajeria.core;
 
-import com.gustavogenovese.servermensajeria.entidades.Mensaje;
-import com.gustavogenovese.servermensajeria.entidades.Usuario;
+import com.gustavogenovese.servermensajeria.entidades.dtos.MensajeDTO;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  */
 public interface ServicioMensajes {
 
-    boolean enviarMensaje(Usuario remitente, Usuario destinatario, String mensaje);
-    List<Mensaje> listarMensajesPara(Usuario destinatario);
-    List<Mensaje> listarMensajesDe(Usuario remitente);
+    boolean enviarMensaje(String remitenteId, String destinatarioNombre, String mensaje);
+    List<MensajeDTO> listarMensajesPara(String destinatarioId);
+    List<MensajeDTO> listarMensajesDe(String remitenteId);
 }
