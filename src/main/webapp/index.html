@@ -22,8 +22,8 @@
             a {
                 color: white;
             }
-            pre {
-                margin-left: 5em;
+            .conmargen {
+                margin-left: 1em;
             }
             .brand {
                 display: block;
@@ -58,28 +58,61 @@
     </head>
     <body>
         <h1>Servidor de Mensajer&iacute;a</h1>
-        <h6>No hay nada que ver aqui, acceda a traves de la API</h6>
+        <h6>No hay nada que ver aqu&iacute;, acceda a trav&eacute;s de la API:</h6>
         <table>
             <tbody>
                 <tr>
                     <td><strong>Usuario nuevo</strong></td>
-                    <td><pre>/servicios/usuarios/registrarusuario?usuario={usuario}&amp;password={password}</pre></td>
+                    <td><pre class="conmargen">
+                    /servicios/usuarios/registrarusuario?usuario={usuario}&amp;password={password}
+                	Status 201: OK (Created)
+                	Status 409: Error (Conflict)
+                	Respuesta: true/false</pre></td>
                 </tr>
                 <tr>
                     <td><strong>Login</strong></td>
-                    <td><pre>/servicios/usuarios/login?usuario={usuario}&amp;password={password}</pre></td>
+                    <td><pre class="conmargen">
+                    /servicios/usuarios/login?usuario={usuario}&amp;password={password}
+                	Status 200: OK
+                	Status 401: Error (Unauthorized)
+                	Respuesta: token</pre></td>
                 </tr>
                 <tr>
                     <td><strong>Enviar mensaje</strong></td>
-                    <td><pre>/servicios/mensajes/nuevomensaje?sesion={token}&amp;destinatario={destinatario}&amp;mensaje={mensaje}</pre></td>
+                    <td><pre class="conmargen">
+                    /servicios/mensajes/nuevomensaje?sesion={token}&amp;destinatario={destinatario}&amp;mensaje={mensaje}
+                	Status 201: OK (Created)
+                	Status 401: Error (Unauthorized)
+                	Status 500: Error (Server error)
+                	Respuesta: true/false</pre></td>
                 </tr>
                 <tr>
                     <td><strong>Mensajes recibidos</strong></td>
-                    <td><pre>/servicios/mensajes/listamensajes?sesion={token}</pre></td>
+                    <td><pre class="conmargen">
+                    /servicios/mensajes/listamensajes?sesion={token}
+                	Status 200: OK
+                	Status 401: Error (Unauthorized)
+                	Respuesta: Lista de mensajes
+                	Formato: 
+                	[
+                		{
+                			"id": "id mensaje",
+                			"de": "remitente", 
+                			"para": "destinatario",
+                			"mensaje": "mensaje",
+                			"fecha": "fecha"
+               			},
+               			(...)
+              		]</pre></td>
                 </tr>
                 <tr>
                     <td><strong>Mensajes enviados</strong></td>
-                    <td><pre>/servicios/mensajes/listamensajesenviados?sesion={token}</pre></td>
+                    <td><pre class="conmargen">
+                    /servicios/mensajes/listamensajesenviados?sesion={token}
+                	Status 200: OK
+                	Status 401: Error (Unauthorized)
+                	Respuesta: Lista de mensajes
+                	Formato: Igual al anterior</pre></td>
                 </tr>
             </tbody>
         </table>
