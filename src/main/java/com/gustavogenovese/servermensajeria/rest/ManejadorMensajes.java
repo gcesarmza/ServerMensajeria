@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -56,21 +57,21 @@ public class ManejadorMensajes {
     @Produces(MediaType.APPLICATION_JSON)
     public Response enviarMensaje(@QueryParam("sesion") String sesion,
                                   @QueryParam("destinatario") String destinatario,
-                                  @QueryParam("mensaje") String mensaje) {
+                                  @PathParam("mensaje") String mensaje) {
         String remitenteId = Sesiones.getInstance().getUsuarioId(sesion);
         if (remitenteId == null){
             return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();
         }
 
         if (destinatario == null){
-            return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(false).build();
         }
 
         boolean resultado = servicioMensajes.enviarMensaje(remitenteId, destinatario, mensaje);
         if (resultado){
             return Response.status(Response.Status.CREATED).entity(true).build();
         }else{
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(true).build();
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(true).build();
         }
     }
 }
