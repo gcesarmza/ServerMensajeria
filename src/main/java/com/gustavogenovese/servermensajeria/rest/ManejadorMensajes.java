@@ -5,9 +5,9 @@ import com.gustavogenovese.servermensajeria.core.Sesiones;
 import com.gustavogenovese.servermensajeria.entidades.dtos.MensajeDTO;
 import java.util.Collections;
 import java.util.List;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -57,7 +57,7 @@ public class ManejadorMensajes {
     @Produces(MediaType.APPLICATION_JSON)
     public Response enviarMensaje(@QueryParam("sesion") String sesion,
                                   @QueryParam("destinatario") String destinatario,
-                                  @PathParam("mensaje") String mensaje) {
+                                  @FormParam("mensaje") String mensaje) {
         String remitenteId = Sesiones.getInstance().getUsuarioId(sesion);
         if (remitenteId == null){
             return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();

@@ -80,10 +80,11 @@
                 <tr>
                     <td><strong>Enviar mensaje</strong></td>
                     <td><pre class="conmargen">
-                    /servicios/mensajes/nuevomensaje?sesion={token}&amp;destinatario={destinatario}&amp;mensaje={mensaje}
+                    /servicios/mensajes/nuevomensaje?sesion={token}&amp;destinatario={destinatario}
+                	Post data: mensaje={mensaje}
                 	Status 201: OK (Created)
                 	Status 401: Error (Unauthorized)
-                	Status 500: Error (Server error)
+                	Status 406: Error (Unacceptable)
                 	Respuesta: true/false</pre></td>
                 </tr>
                 <tr>
@@ -93,11 +94,11 @@
                 	Status 200: OK
                 	Status 401: Error (Unauthorized)
                 	Respuesta: Lista de mensajes
-                	Formato: 
+                	Formato:
                 	[
                 		{
                 			"id": "id mensaje",
-                			"de": "remitente", 
+                			"de": "remitente",
                 			"para": "destinatario",
                 			"mensaje": "mensaje",
                 			"fecha": "fecha"
