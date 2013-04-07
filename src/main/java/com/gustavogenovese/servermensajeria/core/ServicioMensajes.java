@@ -10,6 +10,6 @@ import java.util.List;
 public interface ServicioMensajes {
 
     boolean enviarMensaje(String remitenteId, String destinatarioNombre, String mensaje);
-    List<MensajeDTO> listarMensajesPara(String destinatarioId);
+    List<MensajeDTO> listarMensajesPara(String destinatarioId, String ultimoMensajeRecibidoId);
     List<MensajeDTO> listarMensajesDe(String remitenteId);
 }

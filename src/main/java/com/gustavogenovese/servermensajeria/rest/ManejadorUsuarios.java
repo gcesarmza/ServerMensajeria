@@ -53,6 +53,6 @@ public class ManejadorUsuarios {
             String token = Sesiones.getInstance().nuevaSesion(id);
             return Response.status(Response.Status.OK).entity(token).build();
         }
-        return Response.status(Response.Status.FORBIDDEN).entity("").build();
+        return Response.status(Response.Status.UNAUTHORIZED).entity("").build();
     }
 }

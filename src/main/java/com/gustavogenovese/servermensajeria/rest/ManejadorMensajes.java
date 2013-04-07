@@ -29,13 +29,14 @@ public class ManejadorMensajes {
     @POST
     @Path("/listamensajes")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response listaMensajes(@QueryParam("sesion") String sesion){
+    public Response listaMensajes(@QueryParam("sesion") String sesion,
+                                  @QueryParam("ultimomensajeid") String ultimoMensajeId){
         String usuarioId = Sesiones.getInstance().getUsuarioId(sesion);
         if (usuarioId == null){
             return Response.status(Response.Status.UNAUTHORIZED).entity(Collections.emptyList()).build();
         }
 
-        List<MensajeDTO> mensajes = servicioMensajes.listarMensajesPara(usuarioId);
+        List<MensajeDTO> mensajes = servicioMensajes.listarMensajesPara(usuarioId, ultimoMensajeId);
         return Response.status(Response.Status.OK).entity(mensajes).build();
     }
 

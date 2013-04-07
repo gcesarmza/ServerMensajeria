@@ -14,6 +14,7 @@ import org.jdto.DTOBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -43,6 +44,10 @@ public class ServicioMensajesImpl implements ServicioMensajes{
             return false;
         }
 
+        if (remitente.getId().equals(destinatario.getId())){
+            return false;
+        }
+
         Mensaje m = new Mensaje();
         m.setId(UUID.randomUUID().toString());
         m.setRemitente(remitente);
@@ -55,9 +60,20 @@ public class ServicioMensajesImpl implements ServicioMensajes{
     }
 
     @Override
-    public List<MensajeDTO> listarMensajesPara(String destinatarioId) {
+    public List<MensajeDTO> listarMensajesPara(String destinatarioId, String ultimoMensajeRecibidoId) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Mensaje.class);
         criteria.createCriteria("destinatario").add(Restrictions.idEq(destinatarioId));
+
+        if (StringUtils.hasText(ultimoMensajeRecibidoId)){
+            Criteria c = sessionFactory.getCurrentSession().createCriteria(Mensaje.class);
+            c.add(Restrictions.idEq(ultimoMensajeRecibidoId));
+            c.setMaxResults(1);
+            Mensaje m = (Mensaje)c.uniqueResult();
+            if (m != null && m.getDestinatario().getId().equals(destinatarioId)){
+                criteria.add(Restrictions.gt("fecha", m.getFecha()));
+            }
+        }
+
         criteria.addOrder(Order.desc("fecha"));
         List<Mensaje> mensajes =  criteria.list();
         List<MensajeDTO> ret = binder.bindFromBusinessObjectList(MensajeDTO.class, mensajes);
