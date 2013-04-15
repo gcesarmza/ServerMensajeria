@@ -1,6 +1,7 @@
 package com.gustavogenovese.servermensajeria.entidades;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,6 +16,9 @@ public class Usuario implements Serializable{
     private String id;
     private String usuario;
     private String password;
+
+    @Column(length = 512)
+    private String token;
 
     public String getId() {
         return id;
@@ -38,5 +42,13 @@ public class Usuario implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

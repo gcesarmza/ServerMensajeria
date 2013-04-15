@@ -31,6 +31,9 @@ public class ServicioMensajesImpl implements ServicioMensajes{
     private ServicioUsuarios servicioUsuarios;
 
     @Autowired
+    private ServicioNotificacionesPush servicioNotificacionesPush;
+
+    @Autowired
     private DTOBinder binder;
 
     @Override
@@ -56,6 +59,8 @@ public class ServicioMensajesImpl implements ServicioMensajes{
         m.setFecha(new Date());
 
         sessionFactory.getCurrentSession().save(m);
+
+        servicioNotificacionesPush.notificarNuevoMensaje(destinatario.getId(), m.getId());
         return true;
     }
 

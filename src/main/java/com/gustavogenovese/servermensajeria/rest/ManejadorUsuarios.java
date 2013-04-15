@@ -55,4 +55,22 @@ public class ManejadorUsuarios {
         }
         return Response.status(Response.Status.UNAUTHORIZED).entity("").build();
     }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/registrartoken")
+    public Response registrarToken(@QueryParam("sesion") String sesion,
+                                   @QueryParam("token") String token){
+        String usuarioId = Sesiones.getInstance().getUsuarioId(sesion);
+        if (usuarioId == null){
+            return Response.status(Response.Status.UNAUTHORIZED).entity(false).build();
+        }
+
+        boolean resultado = servicioUsuarios.registrarTokenPush(usuarioId, token);
+        if (resultado){
+            return Response.status(Response.Status.OK).entity(true).build();
+        }else{
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(false).build();
+        }
+    }
 }

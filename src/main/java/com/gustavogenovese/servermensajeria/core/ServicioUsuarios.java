@@ -12,4 +12,5 @@ public interface ServicioUsuarios {
 
     boolean agregarUsuario(String usuario, String password);
     String autenticarUsuario(String usuario, String password);
+    boolean registrarTokenPush(String idUsuario, String token);
 }

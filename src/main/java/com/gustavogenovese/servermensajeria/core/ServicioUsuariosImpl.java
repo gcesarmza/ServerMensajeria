@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -65,6 +66,20 @@ public class ServicioUsuariosImpl implements ServicioUsuarios{
         criteria.add(Restrictions.eq("usuario", usuario));
         criteria.setMaxResults(1);
         return (Usuario)criteria.uniqueResult();
+    }
+
+    @Override
+    public boolean registrarTokenPush(String idUsuario, String token) {
+        if (!StringUtils.hasText(idUsuario) || !StringUtils.hasText(token)){
+            return false;
+        }
+        Usuario usuario = buscarUsuarioPorId(idUsuario);
+        if (usuario == null){
+            return false;
+        }
+        usuario.setToken(token);
+        sessionFactory.getCurrentSession().saveOrUpdate(usuario);
+        return true;
     }
 
 }
