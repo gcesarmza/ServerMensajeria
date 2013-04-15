@@ -115,6 +115,15 @@
                 	Respuesta: Lista de mensajes
                 	Formato: Igual al anterior</pre></td>
                 </tr>
+                <tr>
+                    <td><strong>Registrar token para push</strong></td>
+                    <td><pre class="conmargen">
+                    /servicios/usuarios/registrartoken?sesion={token}&amp;token={tokenpush}
+                	Status 200: OK
+                	Status 401: Error (Unauthorized)
+                        Status 406: Error (Not acceptable)
+                	Respuesta: true/false</pre></td>
+                </tr>
             </tbody>
         </table>
         <p>&nbsp;</p>
