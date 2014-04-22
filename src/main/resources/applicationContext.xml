@@ -16,6 +16,7 @@
     <context:component-scan base-package="com.gustavogenovese.servermensajeria.core" />
     <context:component-scan base-package="com.gustavogenovese.servermensajeria.rest" />
 
+    <context:property-placeholder />
     <!-- HIBERNATE -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <!--<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
